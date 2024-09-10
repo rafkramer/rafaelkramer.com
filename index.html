@@ -27,41 +27,21 @@
             pointer-events: none;
         }
         .container {
-            max-width: 600px;
+            max-width: 800px; // Increased from 600px
             padding: 2rem;
             text-align: left;
         }
         h1 {
-            font-size: 2.5rem;
+            font-size: 2.2rem; // Reduced from 2.5rem
             margin-bottom: 1rem;
         }
         p {
-            font-size: 1.1rem;
+            font-size: 1rem; // Reduced from 1.1rem
             line-height: 1.6;
         }
         a {
             text-decoration: underline;
             color: #e0e0e0;
-        }
-        .social-icons {
-            margin-top: 1rem;
-            display: flex;
-            align-items: center;
-        }
-        .social-icons a {
-            font-size: 1.5rem;
-            margin-right: 1rem;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-        }
-        .social-icons a:last-child {
-            margin-right: 0;
-        }
-        .social-icons svg,
-        .social-icons i {
-            width: 1.5rem;
-            height: 1.5rem;
         }
         @media (max-width: 600px) {
             h1 {
@@ -70,33 +50,15 @@
             p {
                 font-size: 1rem;
             }
-            .social-icons a {
-                font-size: 1.3rem;
-            }
-            .social-icons svg,
-            .social-icons i {
-                width: 1.3rem;
-                height: 1.3rem;
-            }
         }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <canvas id="noise"></canvas>
     <div class="container">
         <h1>I'm Rafael 😶‍🌫️</h1>
         <p>On a mission to build a fully automated software empire.</p>
-        <p>Currently building <a href="https://kramer-ventures.com">kramer ventures</a> (software venture studio) & mindmush (mobile game company).</p>
-        <div class="social-icons">
-            <a href="mailto:rafael@rafaelkramer.com"><i class="fas fa-envelope"></i></a>
-            <a href="https://instagram.com/rafkrm" target="_blank"><i class="fab fa-instagram"></i></a>
-            <a href="https://x.com/rafkramer" target="_blank">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                </svg>
-            </a>
-        </div>
+        <p>Currently building <a href="https://kramer-ventures.com">kramer ventures</a> (venture studio) & mindmush (hypercasual studio).</p>
     </div>
 
     <script>
