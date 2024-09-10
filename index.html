@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rafael Kramer</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            color: #e0e0e0;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.3; // Increased from 0.15
+            z-index: -1;
+            pointer-events: none;
+        }
+        .container {
+            max-width: 600px;
+            padding: 2rem;
+            text-align: left;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        a {
+            text-decoration: underline;
+            color: #e0e0e0;
+        }
+        .social-icons {
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        .social-icons a {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        .social-icons a:last-child {
+            margin-right: 0;
+        }
+        .social-icons svg,
+        .social-icons i {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <canvas id="noise"></canvas>
+    <div class="container">
+        <h1>I'm Rafael 😶‍🌫️</h1>
+        <p>Building an automated software empire.</p>
+        <p>Currently working on <a href="https://kramer-ventures.com">kramer ventures</a> & <a href="https://mindmush.gg">mindmush</a>.</p>
+        <div class="social-icons">
+            <a href="https://x.com/rafkramer" target="_blank">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                </svg>
+            </a>
+            <a href="https://instagram.com/rafkrm" target="_blank"><i class="fab fa-instagram"></i></a>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('noise');
+        const ctx = canvas.getContext('2d');
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        function noise() {
+            const w = canvas.width;
+            const h = canvas.height;
+            const imageData = ctx.createImageData(w, h);
+            const data = imageData.data;
+
+            for (let i = 0; i < data.length; i += 4) {
+                const value = Math.random() * 100; // Increased range for more visible noise
+                data[i] = value;
+                data[i + 1] = value;
+                data[i + 2] = value;
+                data[i + 3] = 255;
+            }
+
+            ctx.putImageData(imageData, 0, 0);
+        }
+
+        function loop() {
+            noise();
+            requestAnimationFrame(loop);
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+        loop();
+    </script>
+</body>
+</html>
