@@ -27,9 +27,12 @@
             pointer-events: none;
         }
         .container {
-            max-width: 600px;
+            max-width: none;
+            width: 100%;
             padding: 2rem;
             text-align: left;
+            white-space: nowrap;
+            overflow-x: auto;
         }
         h1 {
             font-size: 2.5rem;
@@ -38,6 +41,8 @@
         p {
             font-size: 1.1rem;
             line-height: 1.6;
+            display: inline;
+            margin-right: 0.5rem;
         }
         a {
             text-decoration: underline;
@@ -63,6 +68,22 @@
             width: 1.5rem;
             height: 1.5rem;
         }
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2rem;
+            }
+            p {
+                font-size: 1rem;
+            }
+            .social-icons a {
+                font-size: 1.3rem;
+            }
+            .social-icons svg,
+            .social-icons i {
+                width: 1.3rem;
+                height: 1.3rem;
+            }
+        }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -70,9 +91,9 @@
     <canvas id="noise"></canvas>
     <div class="container">
         <h1>I'm Rafael 😶‍🌫️</h1>
-        <p>I am on a mission to build a fully automated software empire.</p>
-        <p>Currently bootstrapping <a href="https://kramer-ventures.com">kramer ventures</a> (app / software venture studio) & mindmush (mobile game company).</p>
-        <p>The best way to contact me is via email.</p>
+        <p>On a mission to build a fully automated software empire.</p>
+        <p>Have ammassed 10m+ users across what i've built and generated 100m+ organic views on through my personal brand and working with 50+ influencers.</p>
+        <p>Currently building <a href="https://kramer-ventures.com">kramer ventures</a> (consumer app / software venture studio) & mindmush (mobile game company).</p>
         <div class="social-icons">
             <a href="mailto:rafael@rafaelkramer.com"><i class="fas fa-envelope"></i></a>
             <a href="https://instagram.com/rafkrm" target="_blank"><i class="fab fa-instagram"></i></a>
