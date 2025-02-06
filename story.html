@@ -11,10 +11,8 @@
             font-family: Arial, sans-serif;
             background-color: #000;
             color: #e0e0e0;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            min-height: 100vh;
+            overflow-y: auto;
         }
         #noise {
             position: fixed;
@@ -22,16 +20,15 @@
             left: 0;
             width: 100%;
             height: 100%;
-            opacity: 0.3; // Increased from 0.15
+            opacity: 0.3;
             z-index: -1;
             pointer-events: none;
         }
         .container {
-            max-width: 600px;
+            max-width: 800px;
+            margin: 0 auto;
             padding: 2rem;
-            text-align: left;
-            display: flex;
-            flex-direction: column;
+            position: relative;
         }
         .links {
             display: flex;
@@ -42,15 +39,14 @@
             margin: 0 0.5rem; 
             color: #e0e0e0;
         }
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1.0rem;
+        h2 {
+            margin-top: 0;
+            margin-bottom: 2rem;
         }
         p {
             font-size: 1.1rem;
-            line-height: 1.6;
-            margin-top: 0;
-            margin-bottom: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
         }
         a {
             text-decoration: underline;
@@ -69,13 +65,22 @@
 <body>
     <canvas id="noise"></canvas>
     <div class="container">
-        <h2>hi, i'm rafael 👋</h1>
-        <p>currently building: <a href="https://kramer-ventures.com">kramer ventures</a></p>
-        <div class="links" style="display: flex; align-items: center;">
-            <p style="margin: 0;"><a href="wins.html" style="text-decoration: underline;">wins</a></p>
-            <span style="font-size: 1.2rem; margin: 0 0.2rem;">/</span>
-            <p style="margin: 0;"><a href="socials.html" style="text-decoration: underline;">socials</a></p>
-        </div>
+        <h2>story 📖</h2>
+        <p>started at a very young age, always knew i'd be successful, i'm nowhere near where I want to be yet though - this is a very condensed version of my story thus-far:</p>
+
+        <p>first success was developing my own crappy meme mobile games and building a personal brand to promote them</p>
+
+        <p>took me about a year to master and made me 6 figures at the age of 14, which flipped a switch, showed me the world is moldable and anything is possible</p>
+
+        <p>moved on from tiktok / games after about another year, then created a startup, built that for another two years, fucked up a lot, learnt a lot, sold it</p>
+
+        <p>had a couple months of just doing random projects I was curious about, then founded kramer ventures (venture studio, so rn i'm involved in building several business simultaneously)</p>
+
+        <p>throughout all this i've been finishing school and am now finally in my last semester, been able to maintain a healthy social life, mental / physical health, priorities beside biz - although this was hard to do at first</p>
+
+        <p>i'm 18 now and the biggest learnings in the first conscious years of my life haven't necessarily been about business, more about how to navigate being a human lol - I write a lot about this topic personally, may share here at some point</p>
+
+        <p style="margin: 0;"><a href="index.html" style="text-decoration: underline;">< back</a></p>
     </div>
 
     <script>
