@@ -39,16 +39,17 @@
             gap: 1rem;
         }
         .links span {
-            margin: 0 0.5rem; // Add some space around the slash
-            color: #e0e0e0; // Match the color of the links
+            margin: 0 0.5rem; 
+            color: #e0e0e0;
         }
         h1 {
             font-size: 2.5rem;
-            margin-bottom: 1rem;
+            margin-bottom: 1.0rem;
         }
         p {
             font-size: 1.1rem;
             line-height: 1.6;
+            margin-top: 0;
         }
         a {
             text-decoration: underline;
@@ -56,10 +57,10 @@
         }
         @media (max-width: 600px) {
             h1 {
-                font-size: 1.8rem; // Reduced from 2rem
+                font-size: 1.8rem;
             }
             p {
-                font-size: 0.9rem; // Reduced from 1rem
+                font-size: 0.9rem;
             }
         }
     </style>
@@ -67,13 +68,14 @@
 <body>
     <canvas id="noise"></canvas>
     <div class="container">
-        <h1>hi, i'm rafael 👨‍💻</h1>
-        <p><strong>currently building:</strong></p>
-        <p>- kramer ventures (app & saas venture studio).</p>
-        <p>- mindmush (brainrot mobile game company).</p>
-        <div class="links">
-            <p><a href="achievements.html" style="text-decoration: underline;">achievements</a> <span>/</span></p>
-            <p><a href="socials.html" style="text-decoration: underline;">socials</a></p>
+        <h2>hi, i'm rafael 👋</h1>
+        <p>currently building: <a href="https://kramer-ventures.com">kramer ventures</a></p>
+        <div class="links" style="display: flex; align-items: center;">
+            <p style="margin: 0;"><a href="wins.html" style="text-decoration: underline;">wins</a></p>
+            <span style="font-size: 1.2rem; margin: 0 0.2rem;">/</span>
+            <p style="margin: 0;"><a href="story.html" style="text-decoration: underline;">story</a></p>
+            <span style="font-size: 1.2rem; margin: 0 0.2rem;">/</span>
+            <p style="margin: 0;"><a href="socials.html" style="text-decoration: underline;">socials</a></p>
         </div>
     </div>
 
