@@ -59,6 +59,23 @@
             51%, 100% { opacity: 0; }
         }
 
+        .big-pulse {
+            display: inline-block;
+            animation: pulse 2s ease-in-out infinite;
+            font-weight: bold;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.15);
+                opacity: 0.9;
+            }
+        }
+
         a {
             color: #4a9eff;
             text-decoration: none;
@@ -143,9 +160,9 @@ stats:
 
 - 3 exits (1 company 2 apps)
 
-currently scheming something BIG 🤫
+currently scheming something BIG
 
-follow my socials: insta, tiktok, youtube, X
+follow: insta, tiktok, youtube, X
 
 email me: rafael@rafaelkramer.com`;
 
@@ -160,9 +177,11 @@ email me: rafael@rafaelkramer.com`;
                 index++;
                 setTimeout(typeWriter, speed);
             } else {
-                // Typewriter effect complete, add clickable links
+                // Typewriter effect complete, add clickable links and effects
                 const finalText = typewriterEl.textContent;
                 typewriterEl.innerHTML = finalText
+                    .replace(/\bBIG\b/g, '<span class="big-pulse">BIG</span>')
+                    .replace(/\binsta\b/gi, '<a href="https://instagram.com/rafaelkramer" target="_blank">insta</a>')
                     .replace(/tiktok/gi, '<a href="https://tiktok.com/@rafaelkramer" target="_blank">tiktok</a>')
                     .replace(/instagram/gi, '<a href="https://instagram.com/rafaelkramer" target="_blank">instagram</a>')
                     .replace(/youtube/gi, '<a href="https://youtube.com/@rafaelkramer" target="_blank">youtube</a>')
