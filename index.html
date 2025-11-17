@@ -5,115 +5,483 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rafael Kramer</title>
     <style>
-        body, html {
+        * {
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
-            background-color: #000;
-            color: #e0e0e0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: #000;
+            color: #4a9eff;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .geometric-bg {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 40%;
             height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+            perspective: 1000px;
+            perspective-origin: center center;
+        }
+
+        .shape-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+        }
+
+        .shape {
+            position: absolute;
+            border: 2px solid rgba(74, 158, 255, 0.3);
+            background: transparent;
+            transform-style: preserve-3d;
+        }
+
+        .cube {
+            width: 120px;
+            height: 120px;
+            animation: rotateCube 20s linear infinite;
+        }
+
+        .cube-face {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            border: 2px solid rgba(74, 158, 255, 0.4);
+            background: rgba(74, 158, 255, 0.05);
+        }
+
+        .cube-face.front { transform: rotateY(0deg) translateZ(60px); }
+        .cube-face.back { transform: rotateY(180deg) translateZ(60px); }
+        .cube-face.right { transform: rotateY(90deg) translateZ(60px); }
+        .cube-face.left { transform: rotateY(-90deg) translateZ(60px); }
+        .cube-face.top { transform: rotateX(90deg) translateZ(60px); }
+        .cube-face.bottom { transform: rotateX(-90deg) translateZ(60px); }
+
+        .cube-face.front,
+        .cube-face.back,
+        .cube-face.right,
+        .cube-face.left,
+        .cube-face.top,
+        .cube-face.bottom {
+            transform-style: preserve-3d;
+        }
+
+        .pyramid {
+            width: 0;
+            height: 0;
+            border-left: 60px solid transparent;
+            border-right: 60px solid transparent;
+            border-bottom: 100px solid rgba(74, 158, 255, 0.25);
+            border-top: none;
+            position: relative;
+            transform-style: preserve-3d;
+        }
+
+        .pyramid::before {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 60px solid transparent;
+            border-right: 60px solid transparent;
+            border-top: 100px solid rgba(74, 158, 255, 0.2);
+            border-bottom: none;
+            top: -100px;
+            left: -60px;
+            transform: rotateX(180deg);
+        }
+
+        .octahedron {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            transform-style: preserve-3d;
+        }
+
+        .octahedron::before,
+        .octahedron::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 40px solid transparent;
+            border-right: 40px solid transparent;
+        }
+
+        .octahedron::before {
+            border-bottom: 60px solid rgba(74, 158, 255, 0.25);
+            top: 0;
+            left: 0;
+        }
+
+        .octahedron::after {
+            border-top: 60px solid rgba(74, 158, 255, 0.25);
+            bottom: 0;
+            left: 0;
+            transform: rotateX(180deg);
+        }
+
+        .ring {
+            width: 150px;
+            height: 150px;
+            border: 3px solid rgba(74, 158, 255, 0.3);
+            border-radius: 50%;
+            animation: rotateRing 18s linear infinite;
+        }
+
+        .ring::before {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border: 2px solid rgba(74, 158, 255, 0.25);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        @keyframes rotateCube {
+            0% { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
+            100% { transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg); }
+        }
+
+        @keyframes rotatePyramid {
+            0% { transform: rotateX(0deg) rotateY(0deg); }
+            100% { transform: rotateX(360deg) rotateY(360deg); }
+        }
+
+        @keyframes rotateOctahedron {
+            0% { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
+            100% { transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg); }
+        }
+
+        @keyframes rotateRing {
+            0% { transform: rotateZ(0deg) rotateY(0deg); }
+            100% { transform: rotateZ(360deg) rotateY(360deg); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) translateX(0px); }
+            50% { transform: translateY(-20px) translateX(10px); }
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
             display: flex;
             justify-content: center;
             align-items: center;
+            min-height: 100vh;
+            max-width: 1200px;
+            margin: 0 auto;
         }
-        #noise {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0.3; // Increased from 0.15
-            z-index: -1;
-            pointer-events: none;
-        }
+
         .container {
             max-width: 600px;
-            padding: 2rem;
-            text-align: left;
-            display: flex;
-            flex-direction: column;
+            width: 100%;
+            position: relative;
         }
-        .links {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
+
+        .text {
+            font-size: clamp(14px, 2.5vw, 18px);
+            line-height: 1.8;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
-        .links span {
-            margin: 0 0.5rem; 
-            color: #e0e0e0;
+
+        .cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.2em;
+            background: #4a9eff;
+            animation: blink 1s infinite;
+            margin-left: 2px;
+            vertical-align: baseline;
         }
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1.0rem;
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
         }
-        p {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            margin-top: 0;
-            margin-bottom: 1.2rem;
-        }
+
         a {
-            text-decoration: underline;
-            color: #e0e0e0;
+            color: #4a9eff;
+            text-decoration: none;
+            border-bottom: 1px solid #4a9eff;
+            transition: opacity 0.3s;
         }
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 1.8rem;
+
+        a:hover {
+            opacity: 0.7;
+        }
+
+        @media (max-width: 1024px) {
+            .geometric-bg {
+                width: 35%;
             }
-            p {
-                font-size: 0.9rem;
+            
+            .content-wrapper {
+                max-width: 90%;
+            }
+
+            .cube { width: 100px; height: 100px; }
+            .cube-face { width: 100px; height: 100px; }
+            .cube-face.front { transform: rotateY(0deg) translateZ(50px); }
+            .cube-face.back { transform: rotateY(180deg) translateZ(50px); }
+            .cube-face.right { transform: rotateY(90deg) translateZ(50px); }
+            .cube-face.left { transform: rotateY(-90deg) translateZ(50px); }
+            .cube-face.top { transform: rotateX(90deg) translateZ(50px); }
+            .cube-face.bottom { transform: rotateX(-90deg) translateZ(50px); }
+        }
+
+        @media (max-width: 768px) {
+            .text {
+                font-size: clamp(13px, 4vw, 16px);
+                line-height: 1.6;
+            }
+
+            .geometric-bg {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                opacity: 0.6;
+            }
+
+            .content-wrapper {
+                padding: 15px;
+                max-width: 100%;
+            }
+
+            .container {
+                max-width: 100%;
+            }
+
+            body {
+                padding: 15px;
+            }
+
+            .cube { width: 80px; height: 80px; }
+            .cube-face { width: 80px; height: 80px; }
+            .cube-face.front { transform: rotateY(0deg) translateZ(40px); }
+            .cube-face.back { transform: rotateY(180deg) translateZ(40px); }
+            .cube-face.right { transform: rotateY(90deg) translateZ(40px); }
+            .cube-face.left { transform: rotateY(-90deg) translateZ(40px); }
+            .cube-face.top { transform: rotateX(90deg) translateZ(40px); }
+            .cube-face.bottom { transform: rotateX(-90deg) translateZ(40px); }
+        }
+
+        @media (max-width: 480px) {
+            .text {
+                font-size: clamp(12px, 4.5vw, 14px);
+                line-height: 1.5;
+            }
+
+            body {
+                padding: 12px;
+            }
+
+            .content-wrapper {
+                padding: 10px;
+            }
+
+            .geometric-bg {
+                opacity: 0.5;
+            }
+
+            a {
+                padding: 2px 0;
+                min-height: 44px;
+                display: inline-block;
+            }
+
+            .cube { width: 60px; height: 60px; }
+            .cube-face { width: 60px; height: 60px; }
+            .cube-face.front { transform: rotateY(0deg) translateZ(30px); }
+            .cube-face.back { transform: rotateY(180deg) translateZ(30px); }
+            .cube-face.right { transform: rotateY(90deg) translateZ(30px); }
+            .cube-face.left { transform: rotateY(-90deg) translateZ(30px); }
+            .cube-face.top { transform: rotateX(90deg) translateZ(30px); }
+            .cube-face.bottom { transform: rotateX(-90deg) translateZ(30px); }
+        }
+
+        @media (max-width: 320px) {
+            .text {
+                font-size: 12px;
+            }
+
+            body {
+                padding: 10px;
+            }
+        }
+
+        @media (min-width: 1400px) {
+            .content-wrapper {
+                max-width: 1400px;
+            }
+
+            .container {
+                max-width: 700px;
             }
         }
     </style>
 </head>
 <body>
-    <canvas id="noise"></canvas>
-    <div class="container">
-        <h2>hi, i'm rafael 👋</h2>
-        <p>currently building:</p>
-        <p>- <a href="https://mindmush.com" target="_blank" rel="noopener noreferrer">mindmush</a> (mobile game publisher)</p>
-        <p>- <a href="https://consumer.tools" target="_blank" rel="noopener noreferrer">consumer tools</a> (consumer app studio)</p>
-        <div class="links" style="display: flex; align-items: center;">
-            <p style="margin: 0;"><a href="wins.html" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">wins</a></p>
-            <span style="font-size: 1.2rem; margin: 0 0.2rem;">/</span>
-            <p style="margin: 0;"><a href="socials.html" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">socials</a></p>
+    <div class="geometric-bg" id="geometricBg">
+        <div class="shape-container" id="shapeContainer"></div>
+    </div>
+    <div class="content-wrapper">
+        <div class="container">
+            <div class="text" id="typewriter"></div>
+            <span class="cursor" id="cursor"></span>
         </div>
     </div>
 
     <script>
-        const canvas = document.getElementById('noise');
-        const ctx = canvas.getContext('2d');
+        const fullText = `hey, i'm rafael
 
-        function resize() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
+i've been building apps for 6 years
 
-        function noise() {
-            const w = canvas.width;
-            const h = canvas.height;
-            const imageData = ctx.createImageData(w, h);
-            const data = imageData.data;
+stats:
 
-            for (let i = 0; i < data.length; i += 4) {
-                const value = Math.random() * 100; 
-                data[i] = value;
-                data[i + 1] = value;
-                data[i + 2] = value;
-                data[i + 3] = 255;
+- 50+ apps launched
+
+- 10m+ downloads
+
+- worked with 100+ influencers
+
+- garnered 100m+ views online
+
+- worked with brands like pepsi and bugatti
+
+currently scheming something big
+
+phase 1 is growing my socials :)
+
+follow along: tiktok, instagram, youtube, X
+
+rafael@rafaelkramer.com`;
+
+        const typewriterEl = document.getElementById('typewriter');
+        const cursorEl = document.getElementById('cursor');
+        const shapeContainer = document.getElementById('shapeContainer');
+        let index = 0;
+        const speed = 30; // milliseconds per character
+
+        // Create 3D geometric shapes
+        function createGeometricShapes() {
+            const isMobile = window.innerWidth <= 768;
+            const containerWidth = isMobile ? window.innerWidth : window.innerWidth * 0.4;
+            const containerHeight = window.innerHeight;
+            const numShapes = isMobile ? 8 : 12;
+            
+            shapeContainer.innerHTML = '';
+            
+            for (let i = 0; i < numShapes; i++) {
+                const shapeType = Math.random();
+                let shape;
+                
+                if (shapeType < 0.35) {
+                    // Create cube
+                    shape = document.createElement('div');
+                    shape.className = 'shape cube';
+                    const cubeDuration = (15 + Math.random() * 10) + 's';
+                    const floatDuration = (8 + Math.random() * 4) + 's';
+                    shape.style.animation = `rotateCube ${cubeDuration} linear infinite, float ${floatDuration} ease-in-out infinite`;
+                    shape.style.left = Math.random() * (containerWidth - 120) + 'px';
+                    shape.style.top = Math.random() * (containerHeight - 120) + 'px';
+                    shape.style.animationDelay = Math.random() * 5 + 's';
+                    
+                    // Create cube faces
+                    const faces = ['front', 'back', 'right', 'left', 'top', 'bottom'];
+                    faces.forEach(face => {
+                        const faceEl = document.createElement('div');
+                        faceEl.className = `cube-face ${face}`;
+                        shape.appendChild(faceEl);
+                    });
+                } else if (shapeType < 0.6) {
+                    // Create ring
+                    shape = document.createElement('div');
+                    shape.className = 'shape ring';
+                    const ringDuration = (12 + Math.random() * 8) + 's';
+                    const floatDuration = (8 + Math.random() * 4) + 's';
+                    shape.style.animation = `rotateRing ${ringDuration} linear infinite, float ${floatDuration} ease-in-out infinite`;
+                    shape.style.left = Math.random() * (containerWidth - 150) + 'px';
+                    shape.style.top = Math.random() * (containerHeight - 150) + 'px';
+                    shape.style.animationDelay = Math.random() * 3 + 's';
+                } else if (shapeType < 0.85) {
+                    // Create pyramid
+                    shape = document.createElement('div');
+                    shape.className = 'shape pyramid';
+                    const pyramidDuration = (10 + Math.random() * 10) + 's';
+                    const floatDuration = (8 + Math.random() * 4) + 's';
+                    shape.style.animation = `rotatePyramid ${pyramidDuration} linear infinite, float ${floatDuration} ease-in-out infinite`;
+                    shape.style.left = Math.random() * (containerWidth - 120) + 'px';
+                    shape.style.top = Math.random() * (containerHeight - 200) + 'px';
+                    shape.style.animationDelay = Math.random() * 4 + 's';
+                } else {
+                    // Create octahedron
+                    shape = document.createElement('div');
+                    shape.className = 'shape octahedron';
+                    const octaDuration = (18 + Math.random() * 12) + 's';
+                    const floatDuration = (8 + Math.random() * 4) + 's';
+                    shape.style.animation = `rotateOctahedron ${octaDuration} linear infinite, float ${floatDuration} ease-in-out infinite`;
+                    shape.style.left = Math.random() * (containerWidth - 80) + 'px';
+                    shape.style.top = Math.random() * (containerHeight - 80) + 'px';
+                    shape.style.animationDelay = Math.random() * 3 + 's';
+                }
+                
+                shapeContainer.appendChild(shape);
             }
-
-            ctx.putImageData(imageData, 0, 0);
         }
 
-        function loop() {
-            noise();
-            requestAnimationFrame(loop);
+        function typeWriter() {
+            if (index < fullText.length) {
+                typewriterEl.textContent = fullText.substring(0, index + 1);
+                index++;
+                setTimeout(typeWriter, speed);
+            } else {
+                // Typewriter effect complete, add clickable links
+                const finalText = typewriterEl.textContent;
+                typewriterEl.innerHTML = finalText
+                    .replace(/tiktok/gi, '<a href="https://tiktok.com/@rafaelkramer" target="_blank">tiktok</a>')
+                    .replace(/instagram/gi, '<a href="https://instagram.com/rafaelkramer" target="_blank">instagram</a>')
+                    .replace(/youtube/gi, '<a href="https://youtube.com/@rafaelkramer" target="_blank">youtube</a>')
+                    .replace(/\bX\b/g, '<a href="https://x.com/rafaelkramer" target="_blank">X</a>')
+                    .replace(/rafael@rafaelkramer\.com/g, '<a href="mailto:rafael@rafaelkramer.com">rafael@rafaelkramer.com</a>');
+                cursorEl.style.display = 'none';
+            }
         }
 
-        window.addEventListener('resize', resize);
-        resize();
-        loop();
+        // Start typing when page loads
+        window.addEventListener('load', () => {
+            createGeometricShapes();
+            setTimeout(typeWriter, 500);
+        });
+
+        // Recreate shapes on resize with debounce
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                createGeometricShapes();
+            }, 250);
+        });
     </script>
 </body>
 </html>
