@@ -156,15 +156,15 @@ stats:
 
 - 100+ influencer collabs
 
-- 100m+ social mediaviews
+- 100m+ social media views
 
 - 3 exits (1 company 2 apps)
 
 currently scheming something BIG
 
-follow: insta, tiktok, youtube, X
+follow: insta, tiktok, youtube, twitter
 
-email me: rafael@rafaelkramer.com`;
+inquiries: rafael@rafaelkramer.com`;
 
         const typewriterEl = document.getElementById('typewriter');
         const cursorEl = document.getElementById('cursor');
@@ -173,20 +173,37 @@ email me: rafael@rafaelkramer.com`;
 
         function typeWriter() {
             if (index < fullText.length) {
-                typewriterEl.textContent = fullText.substring(0, index + 1);
+                let currentText = fullText.substring(0, index + 1);
+                
+                // Apply BIG pulse effect immediately when it appears
+                if (currentText.includes('BIG')) {
+                    // Replace BIG with pulse effect and use innerHTML
+                    currentText = currentText.replace(/\bBIG\b/g, '<span class="big-pulse">BIG</span>');
+                    typewriterEl.innerHTML = currentText;
+                } else {
+                    // Use textContent when BIG hasn't appeared yet (faster)
+                    typewriterEl.textContent = currentText;
+                }
+                
                 index++;
                 setTimeout(typeWriter, speed);
             } else {
                 // Typewriter effect complete, add clickable links and effects
-                const finalText = typewriterEl.textContent;
-                typewriterEl.innerHTML = finalText
-                    .replace(/\bBIG\b/g, '<span class="big-pulse">BIG</span>')
-                    .replace(/\binsta\b/gi, '<a href="https://instagram.com/rafaelkramer" target="_blank">insta</a>')
-                    .replace(/tiktok/gi, '<a href="https://tiktok.com/@rafaelkramer" target="_blank">tiktok</a>')
-                    .replace(/instagram/gi, '<a href="https://instagram.com/rafaelkramer" target="_blank">instagram</a>')
-                    .replace(/youtube/gi, '<a href="https://youtube.com/@rafaelkramer" target="_blank">youtube</a>')
-                    .replace(/\bX\b/g, '<a href="https://x.com/rafaelkramer" target="_blank">X</a>')
-                    .replace(/rafael@rafaelkramer\.com/g, '<a href="mailto:rafael@rafaelkramer.com">rafael@rafaelkramer.com</a>');
+                let finalText = typewriterEl.innerHTML || typewriterEl.textContent;
+                
+                // Replace BIG with pulse effect if not already done
+                if (!finalText.includes('big-pulse')) {
+                    finalText = finalText.replace(/\bBIG\b/g, '<span class="big-pulse">BIG</span>');
+                }
+                
+                // Replace links - do email first (most specific), then social media
+                finalText = finalText.replace(/rafael@rafaelkramer\.com/g, '<a href="mailto:rafael@rafaelkramer.com">rafael@rafaelkramer.com</a>');
+                finalText = finalText.replace(/\binsta\b/gi, '<a href="https://instagram.com/rafael_wizard" target="_blank" rel="noopener noreferrer">insta</a>');
+                finalText = finalText.replace(/\btiktok\b/gi, '<a href="https://tiktok.com/@rafaelwizard" target="_blank" rel="noopener noreferrer">tiktok</a>');
+                finalText = finalText.replace(/\byoutube\b/gi, '<a href="https://youtube.com/@rafaelwizard" target="_blank" rel="noopener noreferrer">youtube</a>');
+                finalText = finalText.replace(/\btwitter\b/gi, '<a href="https://x.com/rafkramer" target="_blank" rel="noopener noreferrer">twitter</a>');
+                
+                typewriterEl.innerHTML = finalText;
                 cursorEl.style.display = 'none';
             }
         }
