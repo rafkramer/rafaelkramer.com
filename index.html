@@ -162,8 +162,6 @@ stats:
 
 currently scheming something BIG
 
-follow: insta, tiktok, youtube, twitter
-
 inquiries: rafael@rafaelkramer.com`;
 
         const typewriterEl = document.getElementById('typewriter');
@@ -196,12 +194,8 @@ inquiries: rafael@rafaelkramer.com`;
                     finalText = finalText.replace(/\bBIG\b/g, '<span class="big-pulse">BIG</span>');
                 }
                 
-                // Replace links - do email first (most specific), then social media
+                // Replace email link
                 finalText = finalText.replace(/rafael@rafaelkramer\.com/g, '<a href="mailto:rafael@rafaelkramer.com">rafael@rafaelkramer.com</a>');
-                finalText = finalText.replace(/\binsta\b/gi, '<a href="https://instagram.com/rafael_wizard" target="_blank" rel="noopener noreferrer">insta</a>');
-                finalText = finalText.replace(/\btiktok\b/gi, '<a href="https://tiktok.com/@rafaelwizard" target="_blank" rel="noopener noreferrer">tiktok</a>');
-                finalText = finalText.replace(/\byoutube\b/gi, '<a href="https://youtube.com/@rafaelwizard" target="_blank" rel="noopener noreferrer">youtube</a>');
-                finalText = finalText.replace(/\btwitter\b/gi, '<a href="https://x.com/rafkramer" target="_blank" rel="noopener noreferrer">twitter</a>');
                 
                 typewriterEl.innerHTML = finalText;
                 cursorEl.style.display = 'none';
