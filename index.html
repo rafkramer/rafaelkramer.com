@@ -21,6 +21,11 @@
             justify-content: center;
             align-items: center;
             overflow-x: hidden;
+            position: relative;
+        }
+
+        html {
+            overflow-x: hidden;
         }
 
         .content-wrapper {
@@ -29,10 +34,12 @@
             align-items: center;
             width: 100%;
             max-width: 500px;
+            overflow: hidden;
         }
 
         .container {
             width: 100%;
+            overflow: hidden;
         }
 
         .text {
@@ -52,6 +59,10 @@
             animation: blink 1s infinite;
             margin-left: 2px;
             vertical-align: baseline;
+        }
+
+        .cursor.hidden {
+            display: none !important;
         }
 
         @keyframes blink {
@@ -99,6 +110,12 @@
 
             body {
                 padding: 15px;
+                overflow-y: auto;
+            }
+
+            .container {
+                border: none;
+                outline: none;
             }
         }
 
@@ -199,6 +216,7 @@ inquiries: rafael@rafaelkramer.com`;
                 
                 typewriterEl.innerHTML = finalText;
                 cursorEl.style.display = 'none';
+                cursorEl.classList.add('hidden');
             }
         }
 
