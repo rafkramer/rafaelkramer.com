@@ -275,8 +275,6 @@ inquiries: rafael@rafaelkramer.com`;
                     finalText = finalText.replace(/\bBIG\b/g, '<span class="big-pulse">BIG</span>');
                 }
                 
-                // Replace email link
-                finalText = finalText.replace(/rafael@rafaelkramer\.com/g, '<a href="mailto:rafael@rafaelkramer.com">rafael@rafaelkramer.com</a>');
                 
                 typewriterEl.innerHTML = finalText;
                 cursorEl.style.display = 'none';
