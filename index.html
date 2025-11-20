@@ -26,6 +26,12 @@
 
         html {
             overflow-x: hidden;
+            border: none;
+            border-bottom: none;
+        }
+
+        body::after {
+            display: none !important;
         }
 
         .content-wrapper {
@@ -40,6 +46,27 @@
         .container {
             width: 100%;
             overflow: hidden;
+            border: none;
+            outline: none;
+            border-bottom: none;
+        }
+
+        .social-links {
+            margin-top: 20px;
+            text-align: left;
+            font-size: clamp(11px, 2vw, 14px);
+            opacity: 0;
+            transition: opacity 0.5s ease-in;
+        }
+
+        .social-links.visible {
+            opacity: 1;
+        }
+
+        .social-links a {
+            margin-right: 15px;
+            text-decoration: underline;
+            border-bottom: none;
         }
 
         .text {
@@ -63,6 +90,12 @@
 
         .cursor.hidden {
             display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            width: 0 !important;
+            height: 0 !important;
+            margin: 0 !important;
+            padding: 0 !important;
         }
 
         @keyframes blink {
@@ -116,6 +149,21 @@
             .container {
                 border: none;
                 outline: none;
+                border-bottom: none;
+            }
+
+            .social-links {
+                font-size: clamp(10px, 3vw, 13px);
+                margin-top: 15px;
+                border-bottom: none;
+            }
+
+            .text {
+                border-bottom: none;
+            }
+
+            #cursor {
+                display: none !important;
             }
         }
 
@@ -138,6 +186,15 @@
                 min-height: 44px;
                 display: inline-block;
             }
+
+            .social-links {
+                font-size: clamp(9px, 3.5vw, 12px);
+                margin-top: 12px;
+            }
+
+            .social-links a {
+                margin-right: 12px;
+            }
         }
 
         @media (max-width: 320px) {
@@ -157,6 +214,12 @@
         <div class="container">
             <div class="text" id="typewriter"></div>
             <span class="cursor" id="cursor"></span>
+            <div class="social-links" id="socialLinks">
+                <a href="https://x.com/rafkramer" target="_blank" rel="noopener noreferrer">X</a>
+                <a href="https://instagram.com/rafkrm" target="_blank" rel="noopener noreferrer">insta</a>
+                <a href="https://tiktok.com/@raf_kramer" target="_blank" rel="noopener noreferrer">tiktok</a>
+                <a href="https://www.youtube.com/@rafikramer" target="_blank" rel="noopener noreferrer">youtube</a>
+            </div>
         </div>
     </div>
 
@@ -183,6 +246,7 @@ inquiries: rafael@rafaelkramer.com`;
 
         const typewriterEl = document.getElementById('typewriter');
         const cursorEl = document.getElementById('cursor');
+        const socialLinks = document.getElementById('socialLinks');
         let index = 0;
         const speed = 30; // milliseconds per character
 
@@ -216,7 +280,18 @@ inquiries: rafael@rafaelkramer.com`;
                 
                 typewriterEl.innerHTML = finalText;
                 cursorEl.style.display = 'none';
+                cursorEl.style.visibility = 'hidden';
+                cursorEl.style.opacity = '0';
+                cursorEl.style.width = '0';
+                cursorEl.style.height = '0';
+                cursorEl.style.margin = '0';
+                cursorEl.style.padding = '0';
                 cursorEl.classList.add('hidden');
+                
+                // Show social links after typing completes
+                setTimeout(() => {
+                    socialLinks.classList.add('visible');
+                }, 300);
             }
         }
 
