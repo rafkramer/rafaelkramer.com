@@ -16,7 +16,7 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #0a0a0a;
+            background: #000;
             color: #e5e5e5;
             min-height: 100vh;
             display: flex;
@@ -28,31 +28,17 @@
 
         .grain {
             position: fixed;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             pointer-events: none;
-            opacity: 0.035;
             z-index: 1000;
-            animation: grain 0.5s steps(1) infinite;
-        }
-
-        @keyframes grain {
-            0%, 100% { transform: translate(0, 0); }
-            10% { transform: translate(-2%, -2%); }
-            20% { transform: translate(2%, 2%); }
-            30% { transform: translate(-1%, 1%); }
-            40% { transform: translate(1%, -1%); }
-            50% { transform: translate(-2%, 2%); }
-            60% { transform: translate(2%, -2%); }
-            70% { transform: translate(0, 2%); }
-            80% { transform: translate(-2%, 0); }
-            90% { transform: translate(2%, 1%); }
+            opacity: 0.025;
         }
 
         .container {
-            max-width: 480px;
+            max-width: 520px;
             width: 100%;
             position: relative;
             z-index: 1;
@@ -80,40 +66,39 @@
         .delay-4 { animation-delay: 0.3s; }
         .delay-5 { animation-delay: 0.4s; }
         .delay-6 { animation-delay: 0.5s; }
-        .delay-7 { animation-delay: 0.6s; }
 
         .greeting {
             font-size: 1.125rem;
             color: #fafafa;
-            margin-bottom: 1.75rem;
+            margin-bottom: 2.25rem;
         }
 
         section {
-            margin-bottom: 1.75rem;
+            margin-bottom: 2.25rem;
         }
 
         p {
             font-size: 0.9375rem;
-            color: #737373;
-            margin-bottom: 0.25rem;
+            color: #a3a3a3;
+            margin-bottom: 0.375rem;
         }
 
         a {
-            color: #a3a3a3;
+            color: #d4d4d4;
             text-decoration: none;
-            border-bottom: 1px solid #333;
+            border-bottom: 1px solid #404040;
             transition: all 0.2s;
         }
 
         a:hover {
             color: #fafafa;
-            border-color: #666;
+            border-color: #737373;
         }
 
         .section-label {
             font-size: 0.9375rem;
-            color: #737373;
-            margin-bottom: 0.375rem;
+            color: #a3a3a3;
+            margin-bottom: 0.5rem;
         }
 
         ul {
@@ -124,50 +109,45 @@
 
         li {
             font-size: 0.9375rem;
-            color: #525252;
+            color: #737373;
             padding-left: 0.875rem;
             position: relative;
-            margin-bottom: 0.125rem;
+            margin-bottom: 0.375rem;
         }
 
         li::before {
             content: '-';
             position: absolute;
             left: 0;
-            color: #404040;
+            color: #525252;
         }
 
         .origin {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.5rem 1rem;
+            gap: 0.5rem 1.25rem;
             font-size: 0.875rem;
-            color: #737373;
-            margin-bottom: 0.5rem;
-        }
-
-        .origin span:first-child {
-            color: #525252;
+            color: #a3a3a3;
+            margin-bottom: 1rem;
         }
 
         .origin .loc {
-            color: #525252;
+            color: #737373;
         }
 
         .origin em {
             font-style: normal;
-            color: #404040;
+            color: #525252;
         }
 
         .socials {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 2rem;
+            gap: 1rem;
         }
 
         .socials a {
-            color: #525252;
+            color: #737373;
             border: none;
             font-size: 0.9375rem;
             transition: color 0.2s;
@@ -178,50 +158,8 @@
         }
 
         .socials .sep {
-            color: #333;
-            font-size: 0.875rem;
-        }
-
-        .podcast {
-            margin-top: 0.5rem;
-        }
-
-        .podcast-label {
-            font-size: 0.9375rem;
-            color: #525252;
-            margin-bottom: 0.75rem;
-        }
-
-        .podcast-card {
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 10px;
-            padding: 1rem 1.25rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-        }
-
-        .podcast-icon {
-            width: 36px;
-            height: 36px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .podcast-icon svg {
-            width: 16px;
-            height: 16px;
-            color: #525252;
-        }
-
-        .podcast-info {
-            font-size: 0.875rem;
             color: #404040;
+            font-size: 0.875rem;
         }
 
         @media (max-width: 480px) {
@@ -238,44 +176,25 @@
                 margin-bottom: 1.5rem;
             }
 
-            p, li, .section-label, .origin, .socials a, .podcast-label {
+            p, li, .section-label, .origin, .socials a {
                 font-size: 0.8125rem;
+            }
+
+            li {
+                margin-bottom: 0.125rem;
             }
 
             .origin {
                 gap: 0.375rem 0.75rem;
+                margin-bottom: 0.5rem;
             }
 
             .socials {
                 gap: 0.5rem;
-                margin-bottom: 1.5rem;
             }
 
             .socials .sep {
                 font-size: 0.75rem;
-            }
-
-            .podcast-card {
-                padding: 0.875rem 1rem;
-                gap: 0.75rem;
-            }
-
-            .podcast-icon {
-                width: 32px;
-                height: 32px;
-            }
-
-            .podcast-icon svg {
-                width: 14px;
-                height: 14px;
-            }
-
-            .podcast-info {
-                font-size: 0.75rem;
-            }
-
-            .podcast {
-                margin-top: 0.25rem;
             }
         }
     </style>
@@ -323,47 +242,47 @@
             <span class="sep">/</span>
             <a href="mailto:rafael@rafaelkramer.com">email</a>
         </div>
-
-        <section class="podcast animate delay-7">
-            <p class="podcast-label">recent podcast</p>
-            <div class="podcast-card">
-                <div class="podcast-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.25 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z" />
-                    </svg>
-                </div>
-                <div class="podcast-info">coming soon</div>
-            </div>
-        </section>
-
-            </main>
+    </main>
     <script>
         const canvas = document.getElementById('grain');
         const ctx = canvas.getContext('2d');
 
+        let width, height;
+
         function resize() {
-            canvas.width = window.innerWidth * 2;
-            canvas.height = window.innerHeight * 2;
-            generateGrain();
+            const dpr = window.devicePixelRatio || 1;
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width * dpr;
+            canvas.height = height * dpr;
+            canvas.style.width = width + 'px';
+            canvas.style.height = height + 'px';
+            ctx.scale(dpr, dpr);
         }
 
-        function generateGrain() {
-            const imageData = ctx.createImageData(canvas.width, canvas.height);
+        function noise() {
+            const imageData = ctx.createImageData(width, height);
             const data = imageData.data;
 
             for (let i = 0; i < data.length; i += 4) {
-                const value = Math.random() * 255;
-                data[i] = value;
-                data[i + 1] = value;
-                data[i + 2] = value;
+                const v = Math.random() * 255;
+                data[i] = v;
+                data[i + 1] = v;
+                data[i + 2] = v;
                 data[i + 3] = 255;
             }
 
             ctx.putImageData(imageData, 0, 0);
         }
 
+        function loop() {
+            noise();
+            requestAnimationFrame(loop);
+        }
+
         window.addEventListener('resize', resize);
         resize();
+        loop();
     </script>
 </body>
 </html>
