@@ -295,113 +295,6 @@
             background: #1a1a1a;
         }
 
-        /* collapsible sections */
-        .fold-head {
-            all: unset;
-            box-sizing: border-box;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.5rem 0;
-            cursor: pointer;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .fold-head:focus-visible {
-            outline: 1px solid #525252;
-            outline-offset: 4px;
-            border-radius: 6px;
-        }
-
-        .fold-title {
-            font-size: 0.75rem;
-            color: #525252;
-            transition: color 0.2s;
-        }
-
-        .fold-line {
-            flex: 1;
-            height: 1px;
-            background: #1a1a1a;
-        }
-
-        .stack {
-            display: flex;
-            padding-left: 6px;
-            transition: opacity 0.35s, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .stack .tile {
-            flex: none;
-            width: 24px;
-            height: 24px;
-            margin-left: -6px;
-            font-size: 2px;
-            box-shadow: 0 0 0 2px #000;
-            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .stack .tile.word span,
-        .stack .tile::after { display: none; }
-
-        .fold-head:hover .fold-title { color: #a3a3a3; }
-        .fold-head:hover .stack .tile { transform: translateX(calc(var(--i) * 3px)); }
-
-        .chev {
-            width: 7px;
-            height: 7px;
-            margin: 0 2px 3px 2px;
-            border-right: 1.5px solid #525252;
-            border-bottom: 1.5px solid #525252;
-            transform: rotate(45deg);
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s;
-        }
-
-        .fold-head:hover .chev { border-color: #a3a3a3; }
-
-        .fold.open .chev {
-            transform: translateY(3px) rotate(-135deg);
-        }
-
-        .fold.open .stack {
-            opacity: 0;
-            transform: translateX(8px);
-            pointer-events: none;
-        }
-
-        .fold-body {
-            display: grid;
-            grid-template-rows: 0fr;
-            transition: grid-template-rows 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .fold.open .fold-body {
-            grid-template-rows: 1fr;
-        }
-
-        .fold-inner {
-            min-height: 0;
-            overflow: hidden;
-            margin: 0 -0.625rem;
-            padding: 0 0.625rem;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .fold.open .fold-inner {
-            opacity: 1;
-            transition: opacity 0.4s 0.1s;
-        }
-
-        .fold + .fold {
-            margin-top: 1.25rem;
-        }
-
-        .fold .row:first-child {
-            margin-top: 0.25rem;
-        }
-
         .row {
             display: grid;
             grid-template-columns: 40px 1fr auto;
@@ -561,7 +454,6 @@
 
         @media (prefers-reduced-motion: reduce) {
             .ring, .grain { animation: none; }
-            .fold-body, .fold-inner, .stack, .chev { transition: none; }
             .animate, .stage { animation-duration: 0.01s; animation-delay: 0s; }
         }
     </style>
@@ -590,14 +482,8 @@
     </header>
 
     <main class="container">
-        <section class="fold animate delay-5">
-            <button class="fold-head" type="button" aria-expanded="false" aria-controls="fold-current">
-                <span class="fold-title">Current</span>
-                <span class="fold-line"></span>
-                <span class="stack" aria-hidden="true"></span>
-                <span class="chev" aria-hidden="true"></span>
-            </button>
-            <div class="fold-body" id="fold-current"><div class="fold-inner">
+        <section class="animate delay-5">
+            <p class="label">Current</p>
             <a class="row" href="https://photoimpostor.com" target="_blank" rel="noopener">
                 <div class="tile has-img"><img src="icons/photoimpostor.webp" alt=""></div>
                 <div><span class="name">Photo Impostor</span><span class="desc">Multiplayer Party Game</span></div>
@@ -613,17 +499,10 @@
                 <div><span class="name">Rewire</span><span class="desc">Reprogram Subconscious Mind</span></div>
                 <span class="arrow">↗</span>
             </a>
-            </div></div>
         </section>
 
-        <section class="fold animate delay-6">
-            <button class="fold-head" type="button" aria-expanded="false" aria-controls="fold-exits">
-                <span class="fold-title">Exits</span>
-                <span class="fold-line"></span>
-                <span class="stack" aria-hidden="true"></span>
-                <span class="chev" aria-hidden="true"></span>
-            </button>
-            <div class="fold-body" id="fold-exits"><div class="fold-inner">
+        <section class="animate delay-6">
+            <p class="label">Exits</p>
             <div class="row">
                 <div class="tile has-img"><img src="icons/debloat.webp" alt=""></div>
                 <div><a class="name" href="https://www.debloat.ai/" target="_blank" rel="noopener">Debloat AI</a><span class="desc">Sold to <a href="https://appstack.tech/" target="_blank" rel="noopener">Appstack</a></span></div>
@@ -644,7 +523,6 @@
                 <div><span class="name">Game Company</span><span class="desc">Sold to <a href="https://r17ventures.com/" target="_blank" rel="noopener">R17 Ventures</a></span></div>
                 <span class="tag">2023</span>
             </div>
-            </div></div>
         </section>
 
         <section class="animate delay-7">
@@ -658,7 +536,7 @@
         </section>
 
         <section>
-            <p class="label">Press</p>
+            <p class="label">Media / Press</p>
             <a class="row text" href="https://youtu.be/FIgn-1kbzZw?si=bJKvXcH1bGyUXFJw" target="_blank" rel="noopener">
                 <div><span class="name">Superwall Podcast</span></div>
                 <span class="arrow">↗</span>
@@ -749,22 +627,6 @@
         const half = Math.ceil(apps.length / 2);
         fill(document.getElementById('ring-a'), apps.slice(0, half), 0, 0);
         fill(document.getElementById('ring-b'), apps.slice(half), 180 / (apps.length - half), half);
-
-        // collapsible sections: icon stack preview + toggle
-        document.querySelectorAll('.fold').forEach(fold => {
-            const head = fold.querySelector('.fold-head');
-            const stack = fold.querySelector('.stack');
-            fold.querySelectorAll('.fold-inner .tile').forEach((t, i) => {
-                const mini = t.cloneNode(true);
-                mini.style.setProperty('--i', i);
-                mini.style.zIndex = 10 - i;
-                stack.appendChild(mini);
-            });
-            head.addEventListener('click', () => {
-                const open = fold.classList.toggle('open');
-                head.setAttribute('aria-expanded', open);
-            });
-        });
 
         // pause ring while off-screen
         const stage = document.getElementById('stage');
