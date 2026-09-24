@@ -2,11 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Rafael Kramer</title>
+    <meta name="description" content="I've launched 50+ apps with 10M+ downloads. Born in Oxford, based in Zürich, currently in SF.">
+    <meta name="theme-color" content="#000000">
+    <meta property="og:title" content="Rafael Kramer">
+    <meta property="og:description" content="I've launched 50+ apps with 10M+ downloads.">
+    <meta property="og:url" content="https://rafaelkramer.com">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -14,275 +21,635 @@
             box-sizing: border-box;
         }
 
+        html {
+            -webkit-text-size-adjust: 100%;
+        }
+
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: #000;
             color: #e5e5e5;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-            line-height: 1.7;
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* grain: one small noise tile, jittered in steps */
         .grain {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: -64px;
             pointer-events: none;
             z-index: 1000;
-            opacity: 0.025;
+            opacity: 0.04;
+            background-size: 128px 128px;
+            animation: grain 0.6s steps(1) infinite;
         }
 
-        .container {
-            max-width: 520px;
-            width: 100%;
-            position: relative;
-            z-index: 1;
+        @keyframes grain {
+            0%   { transform: translate(0, 0); }
+            20%  { transform: translate(-23px, 17px); }
+            40%  { transform: translate(31px, -9px); }
+            60%  { transform: translate(-11px, -29px); }
+            80%  { transform: translate(19px, 27px); }
         }
 
         @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(16px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(16px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
         .animate {
             opacity: 0;
-            animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: fadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         .delay-1 { animation-delay: 0.05s; }
-        .delay-2 { animation-delay: 0.1s; }
-        .delay-3 { animation-delay: 0.2s; }
-        .delay-4 { animation-delay: 0.3s; }
-        .delay-5 { animation-delay: 0.4s; }
-        .delay-6 { animation-delay: 0.5s; }
+        .delay-2 { animation-delay: 0.15s; }
+        .delay-3 { animation-delay: 0.25s; }
+        .delay-4 { animation-delay: 0.35s; }
+        .delay-5 { animation-delay: 0.45s; }
+        .delay-6 { animation-delay: 0.55s; }
+        .delay-7 { animation-delay: 0.65s; }
 
+        /* ---------- app tiles ---------- */
 
-        .greeting {
-            font-size: 1.125rem;
-            color: #fafafa;
-            margin-bottom: 2.25rem;
+        .tile {
+            --h: 200;
+            position: relative;
+            border-radius: 22%;
+            background: linear-gradient(150deg,
+                hsl(var(--h) 42% 60%),
+                hsl(calc(var(--h) + 28) 48% 30%));
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.28),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+            overflow: hidden;
         }
+
+        .tile.has-img {
+            background: none;
+        }
+
+        .tile img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .tile::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.88);
+        }
+
+        .tile[data-g="0"]::after { width: 36%; height: 36%; border-radius: 50%; }
+        .tile[data-g="1"]::after { width: 46%; height: 46%; border-radius: 50%; background: none; border: 0.18em solid rgba(255, 255, 255, 0.88); }
+        .tile[data-g="2"]::after { width: 50%; height: 16%; border-radius: 99px; }
+        .tile[data-g="3"]::after { width: 34%; height: 34%; border-radius: 22%; transform: translate(-50%, -50%) rotate(45deg); }
+        .tile[data-g="4"]::after { display: none; }
+
+        .tile.has-img::after {
+            inset: 0;
+            transform: none;
+            background: none;
+            border-radius: inherit;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+        }
+
+        /* ---------- hero ring ---------- */
+
+        .hero {
+            position: relative;
+            padding-top: max(2.5rem, env(safe-area-inset-top));
+        }
+
+        .stage {
+            --r: min(41vw, 250px);
+            --t: calc(var(--r) * 0.19);
+            position: relative;
+            height: calc(var(--r) * 1.3);
+            perspective: 1100px;
+            overflow: hidden;
+            -webkit-mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+            mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+            opacity: 0;
+            animation: stageIn 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
+        }
+
+        @keyframes stageIn {
+            from { opacity: 0; transform: scale(0.92); }
+            to   { opacity: 1; transform: scale(1); }
+        }
+
+        .scene {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 0;
+            height: 0;
+            transform-style: preserve-3d;
+            transform: rotateX(-13deg);
+        }
+
+        .ring-wrap {
+            position: absolute;
+            transform-style: preserve-3d;
+        }
+
+        .ring-wrap.a { transform: translateY(calc(var(--t) * -0.7)); }
+        .ring-wrap.b { transform: translateY(calc(var(--t) * 0.7)); }
+
+        .ring {
+            position: absolute;
+            transform-style: preserve-3d;
+            animation: spin 90s linear infinite;
+        }
+
+        .ring-wrap.b .ring {
+            animation-duration: 110s;
+            animation-direction: reverse;
+        }
+
+        .paused .ring { animation-play-state: paused; }
+
+        @keyframes spin {
+            from { transform: rotateY(0deg); }
+            to   { transform: rotateY(360deg); }
+        }
+
+        .slot {
+            position: absolute;
+            width: var(--t);
+            height: var(--t);
+            left: calc(var(--t) / -2);
+            top: calc(var(--t) / -2);
+            transform-style: preserve-3d;
+            transform: rotateY(var(--a)) translateZ(var(--r));
+        }
+
+        .slot .tile {
+            position: absolute;
+            inset: 0;
+            font-size: calc(var(--t) / 12);
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+
+        .slot .tile.back {
+            transform: rotateY(180deg);
+            filter: brightness(0.35) saturate(0.7);
+        }
+
+        /* ---------- intro ---------- */
+
+        .container {
+            max-width: 520px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .intro {
+            text-align: center;
+            margin-top: 0.5rem;
+        }
+
+        h1 {
+            font-size: 1.625rem;
+            font-weight: 500;
+            letter-spacing: -0.03em;
+            color: #fafafa;
+            line-height: 1.2;
+        }
+
+        .lede {
+            font-size: 0.9375rem;
+            color: #737373;
+            margin-top: 0.375rem;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            margin-top: 1.75rem;
+        }
+
+        .stat b {
+            display: block;
+            font-size: 2rem;
+            font-weight: 500;
+            letter-spacing: -0.04em;
+            color: #fafafa;
+            line-height: 1;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .stat span {
+            display: block;
+            font-size: 0.75rem;
+            color: #737373;
+            margin-top: 0.5rem;
+        }
+
+        .where {
+            font-size: 0.8125rem;
+            color: #525252;
+            margin-bottom: 0.75rem;
+        }
+
+        .where b {
+            font-weight: 400;
+            color: #a3a3a3;
+        }
+
+        /* ---------- sections ---------- */
 
         section {
-            margin-bottom: 2.25rem;
+            margin-top: 3.25rem;
         }
 
-        p {
+        .label {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.75rem;
+            color: #525252;
+            margin-bottom: 0.75rem;
+        }
+
+        .label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #1a1a1a;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 40px 1fr auto;
+            align-items: center;
+            gap: 0.875rem;
+            padding: 0.625rem 0.625rem;
+            margin: 0 -0.625rem;
+            border-radius: 14px;
+            transition: background 0.2s;
+        }
+
+        a.row:hover {
+            background: #0d0d0d;
+        }
+
+        .row .tile {
+            width: 40px;
+            height: 40px;
+            font-size: 3px;
+        }
+
+        .tile.word {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tile.word span {
+            font-size: 10px;
+            font-weight: 600;
+            line-height: 1.05;
+            letter-spacing: -0.02em;
+            color: #fff;
+            text-align: center;
+        }
+
+        .tile.word::after { display: none; }
+
+        .row .name {
+            display: block;
             font-size: 0.9375rem;
+            color: #e5e5e5;
+            line-height: 1.3;
+        }
+
+        .row .desc {
+            display: block;
+            font-size: 0.8125rem;
+            color: #737373;
+            line-height: 1.4;
+            margin-top: 0.125rem;
+        }
+
+        .row a.name:hover {
+            color: #fafafa;
+        }
+
+        .row .desc a {
             color: #a3a3a3;
-            margin-bottom: 0.375rem;
+            border-bottom: 1px solid #333;
+            transition: color 0.2s, border-color 0.2s;
         }
 
-        a {
-            color: #d4d4d4;
-            text-decoration: none;
-            border-bottom: 1px solid #404040;
-            transition: all 0.2s;
-        }
-
-        a:hover {
+        .row .desc a:hover {
             color: #fafafa;
             border-color: #737373;
         }
 
-        .section-label {
+        .row .arrow {
+            color: #404040;
+            font-size: 0.875rem;
+            transition: color 0.2s, transform 0.2s;
+        }
+
+        a.row:hover .arrow {
+            color: #fafafa;
+            transform: translate(2px, -2px);
+        }
+
+        .tag {
+            font-size: 0.6875rem;
+            color: #737373;
+            border: 1px solid #262626;
+            border-radius: 99px;
+            padding: 0.125rem 0.5rem;
+            white-space: nowrap;
+        }
+
+        /* press rows have no tile */
+        .row.text {
+            grid-template-columns: 1fr auto;
+        }
+
+        .row .outlet {
+            display: block;
+            font-size: 0.6875rem;
+            color: #525252;
+            margin-bottom: 0.125rem;
+        }
+
+        /* highlights list */
+        .list li {
+            list-style: none;
             font-size: 0.9375rem;
             color: #a3a3a3;
-            margin-bottom: 0.5rem;
-        }
-
-        ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        li {
-            font-size: 0.9375rem;
-            color: #737373;
-            padding-left: 0.875rem;
+            padding: 0.3125rem 0 0.3125rem 1rem;
             position: relative;
-            margin-bottom: 0.375rem;
         }
 
-        li::before {
+        .list li::before {
             content: '-';
             position: absolute;
             left: 0;
-            color: #525252;
+            color: #404040;
         }
 
-
-        .origin {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem 1.25rem;
-            font-size: 0.875rem;
-            color: #a3a3a3;
-            margin-bottom: 1rem;
-        }
-
-        .origin .loc {
-            color: #737373;
-        }
-
-        .origin em {
-            font-style: normal;
-            color: #525252;
-        }
-
+        /* socials + footer */
         .socials {
             display: flex;
-            align-items: center;
-            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 3.5rem;
         }
 
         .socials a {
-            color: #737373;
-            border: none;
-            font-size: 0.9375rem;
-            transition: color 0.2s;
+            font-size: 0.8125rem;
+            color: #a3a3a3;
+            border: 1px solid #262626;
+            border-radius: 99px;
+            padding: 0.4375rem 0.875rem;
+            transition: color 0.2s, border-color 0.2s;
         }
 
         .socials a:hover {
             color: #fafafa;
+            border-color: #525252;
         }
 
-        .socials .sep {
+        footer {
+            padding-bottom: calc(6rem + env(safe-area-inset-bottom));
+            text-align: center;
+            margin-top: 3rem;
+            font-size: 0.6875rem;
             color: #404040;
-            font-size: 0.875rem;
+            line-height: 1.7;
         }
 
         @media (max-width: 480px) {
-            body {
-                padding: 1.5rem;
-            }
+            .container { padding: 0 1rem; }
+            h1 { font-size: 1.375rem; }
+            .lede { font-size: 0.875rem; }
+            .stat b { font-size: 1.75rem; }
+            section { margin-top: 2.75rem; }
+            .list li { font-size: 0.875rem; }
+        }
 
-            .greeting {
-                font-size: 1rem;
-                margin-bottom: 1.5rem;
-            }
-
-            section {
-                margin-bottom: 1.5rem;
-            }
-
-            p, li, .section-label, .origin, .socials a {
-                font-size: 0.8125rem;
-            }
-
-            li {
-                margin-bottom: 0.125rem;
-            }
-
-            .origin {
-                gap: 0.375rem 0.75rem;
-                margin-bottom: 0.5rem;
-            }
-
-            .socials {
-                gap: 0.5rem;
-            }
-
-            .socials .sep {
-                font-size: 0.75rem;
-            }
+        @media (prefers-reduced-motion: reduce) {
+            .ring, .grain { animation: none; }
+            .animate, .stage { animation-duration: 0.01s; animation-delay: 0s; }
         }
     </style>
 </head>
 <body>
-    <canvas id="grain" class="grain"></canvas>
+    <div class="grain" id="grain"></div>
+
+    <header class="hero">
+        <div class="stage" id="stage" aria-hidden="true">
+            <div class="scene">
+                <div class="ring-wrap a"><div class="ring" id="ring-a"></div></div>
+                <div class="ring-wrap b"><div class="ring" id="ring-b"></div></div>
+            </div>
+        </div>
+
+        <div class="container intro">
+            <h1 class="animate delay-1">Rafael Kramer</h1>
+            <p class="lede animate delay-2">I launch &amp; scale mobile apps</p>
+
+            <div class="stats animate delay-3">
+                <div class="stat"><b data-count="50" data-suffix="+">50+</b><span>Launches</span></div>
+                <div class="stat"><b data-count="10" data-suffix="M+">10M+</b><span>Downloads</span></div>
+            </div>
+
+        </div>
+    </header>
+
     <main class="container">
-        <p class="greeting animate delay-1">hi, i'm rafael</p>
-
-        <section class="animate delay-2">
-            <p>i run <a href="https://mindmush.com" target="_blank" rel="noopener">mindmush</a>, a mobile app venture studio</p>
-            <p>we've done 10m+ downloads across 50+ apps :)</p>
+        <section class="animate delay-5">
+            <p class="label">Current</p>
+            <a class="row" href="https://photoimpostor.com" target="_blank" rel="noopener">
+                <div class="tile has-img"><img src="icons/photoimpostor.webp" alt=""></div>
+                <div><span class="name">Photo Impostor</span><span class="desc">Multiplayer Party Game</span></div>
+                <span class="arrow">↗</span>
+            </a>
+            <a class="row" href="https://facekitapp.com" target="_blank" rel="noopener">
+                <div class="tile has-img"><img src="icons/facekit.webp" alt=""></div>
+                <div><span class="name">FaceKit</span><span class="desc">Facial Analysis / Improvement</span></div>
+                <span class="arrow">↗</span>
+            </a>
+            <a class="row" href="https://rewiremission.com" target="_blank" rel="noopener">
+                <div class="tile has-img"><img src="icons/rewire.webp" alt=""></div>
+                <div><span class="name">Rewire</span><span class="desc">Reprogram Subconscious Mind</span></div>
+                <span class="arrow">↗</span>
+            </a>
         </section>
 
-        <section class="animate delay-3">
-            <p class="section-label">along the way we've</p>
-            <ul>
-                <li>collabed with the world's biggest creators</li>
-                <li>hit #1 on the app store multiple times</li>
-                <li>had a couple apps get acquired</li>
+        <section class="animate delay-6">
+            <p class="label">Exits</p>
+            <div class="row">
+                <div class="tile has-img"><img src="icons/debloat.webp" alt=""></div>
+                <div><a class="name" href="https://www.debloat.ai/" target="_blank" rel="noopener">Debloat AI</a><span class="desc">Sold to <a href="https://appstack.tech/" target="_blank" rel="noopener">Appstack</a></span></div>
+                <span class="tag">2025</span>
+            </div>
+            <div class="row">
+                <div class="tile has-img"><img src="icons/relationship.webp" alt=""></div>
+                <div><span class="name">Relationship App</span><span class="desc">Sold to <a href="https://www.pathmarklabs.com/" target="_blank" rel="noopener">Pathmark Labs</a></span></div>
+                <span class="tag">2025</span>
+            </div>
+            <div class="row">
+                <div class="tile word" style="--h: 280"><span>mind<br>mush</span></div>
+                <div><a class="name" href="https://mindmush.com/" target="_blank" rel="noopener">Mindmush Studio</a><span class="desc">Partial exit to <a href="https://areality.co/" target="_blank" rel="noopener">Applied Reality</a></span></div>
+                <span class="tag">2024</span>
+            </div>
+            <div class="row">
+                <div class="tile has-img"><img src="icons/ring/roadway3d.webp" alt=""></div>
+                <div><span class="name">Game Company</span><span class="desc">Sold to <a href="https://r17ventures.com/" target="_blank" rel="noopener">R17 Ventures</a></span></div>
+                <span class="tag">2023</span>
+            </div>
+        </section>
+
+        <section class="animate delay-7">
+            <p class="label">Along the Way</p>
+            <ul class="list">
+                <li>Several apps hit #1 on the App Store</li>
+                <li>Collabed with the world's biggest creators</li>
+                <li>Worked with brands like Pepsi and Bugatti</li>
+                <li>Grew my personal TikTok to 400K followers</li>
             </ul>
         </section>
 
-        <section class="animate delay-4">
-            <p class="section-label">some personal sidequests</p>
-            <ul>
-                <li>sold a mobile gaming company</li>
-                <li>grew my tiktok to 400k followers</li>
-                <li>worked w brands like pepsi and bugatti</li>
-            </ul>
+        <section>
+            <p class="label">Press</p>
+            <a class="row text" href="https://youtu.be/FIgn-1kbzZw?si=bJKvXcH1bGyUXFJw" target="_blank" rel="noopener">
+                <div><span class="name">Superwall Podcast</span></div>
+                <span class="arrow">↗</span>
+            </a>
+            <a class="row text" href="https://medium.com/@yumaueno/meet-rafael-kramer-the-young-genius-marketing-his-apps-with-ai-influencers-a656552e118c" target="_blank" rel="noopener">
+                <div><span class="name">Medium Article</span></div>
+                <span class="arrow">↗</span>
+            </a>
+            <a class="row text" href="https://finance.biggo.com/news/765104cb14b1c458" target="_blank" rel="noopener">
+                <div><span class="name">BigGo Feature</span></div>
+                <span class="arrow">↗</span>
+            </a>
         </section>
 
-        <div class="origin animate delay-5">
-            <a href="https://youtu.be/FIgn-1kbzZw?si=bJKvXcH1bGyUXFJw" target="_blank" rel="noopener">watch my recent podcast with superwall <svg style="display:inline-block;vertical-align:middle;margin-left:2px;margin-bottom:1px" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
-        </div>
+        <nav class="socials">
+            <a href="https://x.com/rafkramer" target="_blank" rel="noopener">Twitter</a>
+            <a href="https://www.instagram.com/rafkrm/" target="_blank" rel="noopener">Instagram</a>
+            <a href="https://www.linkedin.com/in/rafael-kramer-7a3b92239/" target="_blank" rel="noopener">LinkedIn</a>
+            <a href="mailto:rafael@rafaelkramer.com">Email</a>
+        </nav>
 
-        <div class="socials animate delay-6">
-            <a href="https://x.com/rafkramer" target="_blank" rel="noopener">twitter</a>
-            <span class="sep">/</span>
-            <a href="https://www.instagram.com/rafkrm/" target="_blank" rel="noopener">instagram</a>
-            <span class="sep">/</span>
-            <a href="https://www.linkedin.com/in/rafael-kramer-7a3b92239/" target="_blank" rel="noopener">linkedin</a>
-            <span class="sep">/</span>
-            <a href="mailto:rafael@rafaelkramer.com">email</a>
-        </div>
+        <footer>
+            <p class="where">Born in <b>Oxford</b> · Live in <b>Zürich</b> · Currently in <b>SF</b></p>
+            Operating under Kramer Ventures GmbH · Zürich, Switzerland
+        </footer>
     </main>
+
     <script>
-        const canvas = document.getElementById('grain');
-        const ctx = canvas.getContext('2d');
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-        let width, height;
-
-        function resize() {
-            const dpr = window.devicePixelRatio || 1;
-            width = window.innerWidth;
-            height = window.innerHeight;
-            canvas.width = width * dpr;
-            canvas.height = height * dpr;
-            canvas.style.width = width + 'px';
-            canvas.style.height = height + 'px';
-            ctx.scale(dpr, dpr);
-        }
-
-        function noise() {
-            const imageData = ctx.createImageData(width, height);
-            const data = imageData.data;
-
-            for (let i = 0; i < data.length; i += 4) {
+        // grain: render one noise tile once
+        (() => {
+            const c = document.createElement('canvas');
+            c.width = c.height = 128;
+            const ctx = c.getContext('2d');
+            const img = ctx.createImageData(128, 128);
+            for (let i = 0; i < img.data.length; i += 4) {
                 const v = Math.random() * 255;
-                data[i] = v;
-                data[i + 1] = v;
-                data[i + 2] = v;
-                data[i + 3] = 255;
+                img.data[i] = img.data[i + 1] = img.data[i + 2] = v;
+                img.data[i + 3] = 255;
             }
+            ctx.putImageData(img, 0, 0);
+            document.getElementById('grain').style.backgroundImage = `url(${c.toDataURL()})`;
+        })();
 
-            ctx.putImageData(imageData, 0, 0);
+        // app ring — files in icons/, add new names here
+        const icons = [
+            'ishowspeedsim', 'x16', '11', '04', 'quandaledunk', 'x02', 'unclebob', 'sillyroad',
+            'facekit', '08', 'memeio', 'domsfamily', '07', 'photoimpostor', '12', 'x06',
+            'x25', 'x22', 'x17', 'x01', '02', 'lebronsim', '06', '03',
+            'roadway3d', 'x14', 'x21', 'x09', 'x12', 'debloat', 'rewire', 'x03',
+            'x18', '10', 'wap', 'x15', 'x11', 'x23', 'x13', 'chickenskate',
+            'endlessrunner', 'x05', 'glizzyrush', 'x19', '01', 'x20', '05', 'x24',
+            'x10', 'x00', 'x08', 'speedsim', '09', 'x04', 'x07', 'flappyboi'
+        ];
+        const apps = Array.from({ length: icons.length }, (_, i) => ({
+            icon: `icons/ring/${icons[i % icons.length]}.webp`
+        }));
+
+        function tile(app, i, back) {
+            const el = document.createElement('div');
+            el.className = 'tile' + (back ? ' back' : '');
+            el.style.setProperty('--h', Math.round((i * 137.508 + 190) % 360));
+            if (app.icon) {
+                el.classList.add('has-img');
+                const img = document.createElement('img');
+                img.src = app.icon;
+                img.alt = '';
+                el.appendChild(img);
+            } else {
+                el.dataset.g = (i * 7) % 5;
+            }
+            return el;
         }
 
-        function loop() {
-            noise();
-            requestAnimationFrame(loop);
+        function fill(ring, list, offset, startIndex) {
+            const step = 360 / list.length;
+            list.forEach((app, j) => {
+                const i = startIndex + j;
+                const slot = document.createElement('div');
+                slot.className = 'slot';
+                slot.style.setProperty('--a', (j * step + offset) + 'deg');
+                slot.append(tile(app, i, false), tile(app, i, true));
+                ring.appendChild(slot);
+            });
         }
 
-        window.addEventListener('resize', resize);
-        resize();
-        loop();
+        const half = Math.ceil(apps.length / 2);
+        fill(document.getElementById('ring-a'), apps.slice(0, half), 0, 0);
+        fill(document.getElementById('ring-b'), apps.slice(half), 180 / (apps.length - half), half);
+
+        // pause ring while off-screen
+        const stage = document.getElementById('stage');
+        new IntersectionObserver(([e]) => {
+            stage.classList.toggle('paused', !e.isIntersecting);
+        }).observe(stage);
+
+        // count-up
+        if (!reduceMotion) {
+            document.querySelectorAll('[data-count]').forEach(el => {
+                const target = +el.dataset.count;
+                const suffix = el.dataset.suffix;
+                el.textContent = '0' + suffix;
+                const start = performance.now() + 350;
+                const dur = 1400;
+                function tick(now) {
+                    const t = Math.min(Math.max((now - start) / dur, 0), 1);
+                    const eased = 1 - Math.pow(1 - t, 4);
+                    el.textContent = Math.round(target * eased) + suffix;
+                    if (t < 1) requestAnimationFrame(tick);
+                }
+                requestAnimationFrame(tick);
+            });
+        }
+
     </script>
 </body>
 </html>
